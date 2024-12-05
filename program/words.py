@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
 from tree import Problem
 from tree import depth_first_recursive_search as dfs
 
