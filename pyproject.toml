@@ -13,13 +13,14 @@ black = "^24.4.0"
 flake8 = "^7.0.0"
 isort = "^5.13.2"
 pre-commit = "^3.7.0"
+flake8-pyproject = "^1.2.3"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-line-length = 79
+line-length = 88
 exclude = '''
 (
     __pycache__
@@ -27,7 +28,7 @@ exclude = '''
 '''
 
 [tool.flake8]
-max-line-length = 79
+max-line-length = 88
 extend-exclude = '__pycache__'
 
 [tool.isort]
