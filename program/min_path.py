@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-import json
+import json  # noqa: I001
 
 from tree import Problem
 from tree import depth_first_recursive_search as dfs
