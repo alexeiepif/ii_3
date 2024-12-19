@@ -37,10 +37,7 @@ class LenProblem(Problem):
             if (
                 0 <= r + dr < len(self.matrix)
                 and 0 <= c + dc < len(self.matrix[0])
-                and (
-                    ord(self.matrix[r + dr][c + dc]) - ord(self.matrix[r][c])
-                    == 1
-                )
+                and (ord(self.matrix[r + dr][c + dc]) - ord(self.matrix[r][c]) == 1)
             ):
                 yield (r + dr, c + dc)
                 sw = True

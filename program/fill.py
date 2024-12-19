@@ -43,9 +43,7 @@ class FillProblem(Problem):
 
 
 def solve(initial, goal, matrix, target_color, replacement_color):
-    problem = FillProblem(
-        initial, goal, matrix, target_color, replacement_color
-    )
+    problem = FillProblem(initial, goal, matrix, target_color, replacement_color)
     dfs(problem)
     return problem.matrix
 
@@ -68,9 +66,7 @@ if __name__ == "__main__":
     target_color = "X"
     replacement_color = "C"
 
-    new_matrix = solve(
-        start_node, None, matrix, target_color, replacement_color
-    )
+    new_matrix = solve(start_node, None, matrix, target_color, replacement_color)
     for row in new_matrix:
         print(row)
     print("\nG-->V")
@@ -78,8 +74,6 @@ if __name__ == "__main__":
     target_color = "G"
     replacement_color = "V"
 
-    new_matrix = solve(
-        start_node, None, matrix, target_color, replacement_color
-    )
+    new_matrix = solve(start_node, None, matrix, target_color, replacement_color)
     for row in new_matrix:
         print(row)

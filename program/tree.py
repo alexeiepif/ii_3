@@ -41,9 +41,7 @@ class Problem:
         return 0
 
     def __str__(self):
-        return "{}({!r}, {!r})".format(
-            type(self).__name__, self.initial, self.goal
-        )
+        return "{}({!r}, {!r})".format(type(self).__name__, self.initial, self.goal)
 
 
 class Node:

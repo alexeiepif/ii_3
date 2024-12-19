@@ -23,10 +23,7 @@ class MinPathProblem(Problem):
 
     def actions(self, state):
         for edge in self.edges:
-            if (
-                edge["data"]["source"] == state[0]
-                or edge["data"]["target"] == state[0]
-            ):
+            if edge["data"]["source"] == state[0] or edge["data"]["target"] == state[0]:
                 yield edge["data"]
 
     def result(self, state, action):
@@ -46,7 +43,7 @@ class MinPathProblem(Problem):
 
 
 def load_elems(path):
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         elems = json.load(f)
 
     for i, elem in enumerate(elems):
@@ -59,20 +56,16 @@ def load_elems(path):
     return nodes, edges
 
 
-def search(problem: Problem):
+def solve(init, goal, nodes, edges):
+    problem = MinPathProblem(init, goal, nodes, edges)
     b = dfs(problem)
     length = b.path_cost
     path = path_states(b)
     return length, path
 
 
-def solve(init, goal, nodes, edges):
-    problem = MinPathProblem(init, goal, nodes, edges)
-    return search(problem)
-
-
 if __name__ == "__main__":
-    nodes, edges = load_elems("elem_full.json")
+    nodes, edges = load_elems("json/elem_full.json")
     for node in nodes:
         if node["data"]["label"] == "Липецк":
             initial = (node["data"]["id"], node["data"]["label"])
