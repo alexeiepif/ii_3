@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
+from typing import Generator
+
 from tree import Problem
 from tree import depth_first_recursive_search as dfs
 
@@ -14,13 +16,19 @@ from tree import depth_first_recursive_search as dfs
 
 
 class LenProblem(Problem):
-    def __init__(self, initial, goal, matrix, start):
+    def __init__(
+        self,
+        initial: tuple[int, int] | None,
+        goal: tuple[int, int] | None,
+        matrix: list[list[str]],
+        start: str,
+    ) -> None:
         super().__init__(initial, goal)
         self.matrix = matrix
         self.max_len = 0
         self.start = start
 
-    def actions(self, state):
+    def actions(self, state: tuple[int, int]) -> Generator[tuple[int, int], None, None]:
         sw = False
         r, c = state
         directions = [
@@ -47,17 +55,19 @@ class LenProblem(Problem):
             if k > self.max_len:
                 self.max_len = k
 
-    def result(self, state, action):
+    def result(
+        self, state: tuple[int, int], action: tuple[int, int]
+    ) -> tuple[int, int]:
         return action
 
 
-def solve(start, matrix):
+def solve(start: str, matrix: list[list[str]]) -> int:
     problem = LenProblem(None, None, matrix, start)
 
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
             if matrix[i][j] == start:
-                problem.initial = (i, j)
+                problem.initial = (i, j)  # type: ignore
                 dfs(problem)
     return problem.max_len + 1
 

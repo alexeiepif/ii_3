@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
+from typing import Generator
+
 from tree import Problem
 from tree import depth_first_recursive_search as dfs
 
@@ -15,13 +17,21 @@ from tree import depth_first_recursive_search as dfs
 
 
 class WordsProblem(Problem):
-    def __init__(self, initial, goal, board, word):
+    def __init__(
+        self,
+        initial: tuple[tuple[int, int], str] | None,
+        goal: str | None,
+        board: list[list[str]],
+        word: str | None,
+    ) -> None:
         super().__init__(initial, goal)
         self.board = board
         self.word = word
-        self.visited = set()
+        self.visited: set[tuple[int, int]] = set()
 
-    def actions(self, state):
+    def actions(
+        self, state: tuple[tuple[int, int], str]
+    ) -> Generator[tuple[int, int], None, None]:
         r, c = state[0]
         letters = state[1]
         directions = [
@@ -38,22 +48,28 @@ class WordsProblem(Problem):
             if (
                 0 <= r + dr < len(self.board)
                 and 0 <= c + dc < len(self.board[0])
-                and (self.board[r + dr][c + dc] == self.word[len(letters)])
+                and (
+                    self.board[r + dr][c + dc] == self.word[len(letters)]
+                    if self.word
+                    else False
+                )
                 and (r + dr, c + dc) not in self.visited
             ):
                 self.visited.add((r + dr, c + dc))
                 yield (r + dr, c + dc)
 
-    def result(self, state, action):
+    def result(
+        self, state: tuple[tuple[int, int], str], action: tuple[int, int]
+    ) -> tuple[tuple[int, int], str]:
         r, c = action
         n_state = (action, state[1] + self.board[r][c])
         return n_state
 
-    def is_goal(self, state):
+    def is_goal(self, state: tuple[tuple[int, int], str]) -> bool:
         return state[1] == self.word
 
 
-def solve(board, dictionary):
+def solve(board: list[list[str]], dictionary: list[str]) -> set[str]:
     words = set()
     problem = WordsProblem(None, None, board, None)
     for word in dictionary:
@@ -64,12 +80,12 @@ def solve(board, dictionary):
             for j, cell in enumerate(row):
                 if cell == initial_letter:
                     initial = ((i, j), initial_letter)
-                    problem.initial = initial
-                    problem.goal = goal
+                    problem.initial = initial  # type: ignore
+                    problem.goal = goal  # type: ignore
                     problem.word = word
-                    word = dfs(problem)
-                    if word:
-                        words.add(word.state[1])
+                    node = dfs(problem)
+                    if node:
+                        words.add(node.state[1])
     return words
 
 

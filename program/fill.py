@@ -3,6 +3,7 @@
 
 
 from copy import deepcopy
+from typing import Generator
 
 from tree import Problem
 from tree import depth_first_recursive_search as dfs
@@ -20,13 +21,20 @@ from tree import depth_first_recursive_search as dfs
 
 
 class FillProblem(Problem):
-    def __init__(self, initial, goal, matrix, target_color, replacement_color):
+    def __init__(
+        self,
+        initial: tuple[int, int],
+        goal: tuple[int, int] | None,
+        matrix: list[list[str]],
+        target_color: str,
+        replacement_color: str,
+    ) -> None:
         super().__init__(initial, goal)
         self.matrix = deepcopy(matrix)
         self.target_color = target_color
         self.replacement_color = replacement_color
 
-    def actions(self, state):
+    def actions(self, state: tuple[int, int]) -> Generator[tuple[int, int], None, None]:
         r, c = state
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         for dr, dc in directions:
@@ -37,12 +45,20 @@ class FillProblem(Problem):
             ):
                 yield (r + dr, c + dc)
 
-    def result(self, state, action):
+    def result(
+        self, state: tuple[int, int], action: tuple[int, int]
+    ) -> tuple[int, int]:
         self.matrix[action[0]][action[1]] = self.replacement_color
         return action
 
 
-def solve(initial, goal, matrix, target_color, replacement_color):
+def solve(
+    initial: tuple[int, int],
+    goal: tuple[int, int] | None,
+    matrix: list[list[str]],
+    target_color: str,
+    replacement_color: str,
+) -> list[list[str]]:
     problem = FillProblem(initial, goal, matrix, target_color, replacement_color)
     dfs(problem)
     return problem.matrix
